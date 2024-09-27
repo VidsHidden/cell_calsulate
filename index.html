@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume Calculator (JS Version)</title>
+    <title>Volume Calculator (With Clear Function)</title>
 </head>
 <body>
     <h1>Volume Calculator</h1>
@@ -19,10 +19,12 @@
     <br><br>
 
     <label for="cell_per_well">Cell Per Well:</label>
-    <select id="cell_per_well">
+    <input list="cell_per_well_options" id="cell_per_well" placeholder="Select or enter value">
+    <datalist id="cell_per_well_options">
+        <option value="10000">10000</option>
         <option value="20000">20000</option>
         <option value="350000">350000</option>
-    </select>
+    </datalist>
 
     <br><br>
 
@@ -84,6 +86,9 @@
             newRow.insertCell(2).innerText = cell_volume;
             newRow.insertCell(3).innerText = cell_per_well;
             newRow.insertCell(4).innerText = volume_needed.toFixed(2);
+
+            // 清空 "Cell Per Well" 输入框
+            document.getElementById("cell_per_well").value = '';
         }
     </script>
 </body>
