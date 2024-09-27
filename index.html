@@ -3,20 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume Calculator (With Clear Function)</title>
+    <title>Volume Calculator (Styled)</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        /* 容器样式 */
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* 输入框样式 */
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* 下拉列表样式 */
+        input[list] {
+            padding-right: 30px;
+        }
+
+        /* 按钮样式 */
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 结果样式 */
+        #output {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* 表格样式 */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
     <h1>Volume Calculator</h1>
     
     <label for="cell_number">Cell Number:</label>
     <input type="text" id="cell_number" placeholder="Enter cell number">
 
-    <br><br>
-    
     <label for="cell_volume">Cell Volume (μl):</label>
     <input type="text" id="cell_volume" value="1000" placeholder="Enter cell volume">
-
-    <br><br>
 
     <label for="cell_per_well">Cell Per Well:</label>
     <input list="cell_per_well_options" id="cell_per_well" placeholder="Select or enter value">
@@ -26,14 +126,12 @@
         <option value="350000">350000</option>
     </datalist>
 
-    <br><br>
-
     <button onclick="calculateVolume()">Calculate</button>
 
     <h2 id="output">Volume we need: </h2>
 
     <h3>History</h3>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -46,50 +144,52 @@
         <tbody id="results_table">
         </tbody>
     </table>
+</div>
 
-    <script>
-        function calculateVolume() {
-            // 获取用户输入的数值
-            const cell_number = parseFloat(document.getElementById("cell_number").value);
-            const cell_volume = parseFloat(document.getElementById("cell_volume").value);
-            const cell_per_well = parseFloat(document.getElementById("cell_per_well").value);
+<script>
+    function calculateVolume() {
+        // 获取用户输入的数值
+        const cell_number = parseFloat(document.getElementById("cell_number").value);
+        const cell_volume = parseFloat(document.getElementById("cell_volume").value);
+        const cell_per_well = parseFloat(document.getElementById("cell_per_well").value);
 
-            // 校验输入是否有效
-            if (isNaN(cell_number) || cell_number <= 0) {
-                document.getElementById("output").innerText = "Invalid input: Cell number must be greater than 0.";
-                return;
-            }
-
-            if (isNaN(cell_volume) || cell_volume <= 0) {
-                document.getElementById("output").innerText = "Invalid input: Cell volume must be greater than 0.";
-                return;
-            }
-
-            if (isNaN(cell_per_well) || cell_per_well <= 0) {
-                document.getElementById("output").innerText = "Invalid input: Cell per well must be greater than 0.";
-                return;
-            }
-
-            // 计算所需体积
-            const volume_needed = (cell_per_well * cell_volume) / cell_number;
-            
-            // 显示结果
-            document.getElementById("output").innerText = `Volume we need: ${volume_needed.toFixed(2)} μl`;
-
-            // 将结果添加到表格中
-            const resultsTable = document.getElementById("results_table");
-            const rowCount = resultsTable.rows.length;
-            const newRow = resultsTable.insertRow(rowCount);
-
-            newRow.insertCell(0).innerText = rowCount + 1;
-            newRow.insertCell(1).innerText = cell_number;
-            newRow.insertCell(2).innerText = cell_volume;
-            newRow.insertCell(3).innerText = cell_per_well;
-            newRow.insertCell(4).innerText = volume_needed.toFixed(2);
-
-            // 清空 "Cell Per Well" 输入框
-            document.getElementById("cell_per_well").value = '';
+        // 校验输入是否有效
+        if (isNaN(cell_number) || cell_number <= 0) {
+            document.getElementById("output").innerText = "Invalid input: Cell number must be greater than 0.";
+            return;
         }
-    </script>
+
+        if (isNaN(cell_volume) || cell_volume <= 0) {
+            document.getElementById("output").innerText = "Invalid input: Cell volume must be greater than 0.";
+            return;
+        }
+
+        if (isNaN(cell_per_well) || cell_per_well <= 0) {
+            document.getElementById("output").innerText = "Invalid input: Cell per well must be greater than 0.";
+            return;
+        }
+
+        // 计算所需体积
+        const volume_needed = (cell_per_well * cell_volume) / cell_number;
+        
+        // 显示结果
+        document.getElementById("output").innerText = `Volume we need: ${volume_needed.toFixed(2)} μl`;
+
+        // 将结果添加到表格中
+        const resultsTable = document.getElementById("results_table");
+        const rowCount = resultsTable.rows.length;
+        const newRow = resultsTable.insertRow(rowCount);
+
+        newRow.insertCell(0).innerText = rowCount + 1;
+        newRow.insertCell(1).innerText = cell_number;
+        newRow.insertCell(2).innerText = cell_volume;
+        newRow.insertCell(3).innerText = cell_per_well;
+        newRow.insertCell(4).innerText = volume_needed.toFixed(2);
+
+        // 清空 "Cell Per Well" 输入框
+        document.getElementById("cell_per_well").value = '';
+    }
+</script>
+
 </body>
 </html>
